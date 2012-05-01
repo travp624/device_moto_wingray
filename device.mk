@@ -16,10 +16,4 @@
 
 $(call inherit-product, device/moto/wingray/device_base.mk)
 
-# This device is mdpi.  However 
-# we do this little trick to xhdpi and hdpi
-# if the xhdpi doesn't exist.
-PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
-PRODUCT_AAPT_PREF_CONFIG := xhdpi
-
 # Add commands which are wingray specific after here
