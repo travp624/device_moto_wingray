@@ -44,6 +44,13 @@ PRODUCT_COPY_FILES += \
     device/moto/wingray/mXT1386_10_AA.bin:system/etc/firmware/mXT1386_10_AA.bin \
     device/moto/wingray/mXT1386_10_FF.bin:system/etc/firmware/mXT1386_10_FF.bin
 
+# Other prebuilt modules
+PRODUCT_COPY_FILES += \
+    device/moto/wingray/modules/cifs.ko:system/lib/modules/cifs.ko \
+    device/moto/wingray/modules/option.ko:system/lib/modules/option.ko \
+    device/moto/wingray/modules/scsi_wait_scan.ko:system/lib/modules/scsi_wait_scan.ko \
+    device/moto/wingray/modules/usb_wwan.ko:system/lib/modules/usb_wwan.ko
+
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
