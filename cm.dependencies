@@ -1,7 +1,0 @@
-[
-    {
-        "repository": "motorola-kernel-stingray",
-        "target_path": "kernel/motorola/stingray",
-        "branch": "ics"
-    }
-]
