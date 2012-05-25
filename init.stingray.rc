@@ -7,18 +7,23 @@ on early-init
     export EXTERNAL_STORAGE /mnt/sdcard
     export SECONDARY_STORAGE /mnt/external1
     mkdir /mnt/sdcard 0000 system system
-    mkdir /mnt/usbdisk 0000 system system
     # for backwards compatibility
     symlink /mnt/sdcard /sdcard
     mkdir /pds 0777 system system
     mkdir /mnt/external1 0000 system system
+    mkdir /media 0775 root system
+    mkdir /media/usb 0000 system system
+    symlink /mnt/sdcard /media/internal
+    symlink /mnt/external1 /media/sdcard
 
 on fs
-    mount ext4 /dev/block/platform/sdhci-tegra.3/by-name/system /system wait ro noatime
+    mount ext4 /dev/block/platform/sdhci-tegra.3/by-name/system /system wait ro
     setprop ro.crypto.tmpfs_options size=128m,mode=0771,uid=1000,gid=1000
-    mount ext4 /dev/block/platform/sdhci-tegra.3/by-name/userdata /data wait noatime nosuid nodev nomblk_io_submit,noauto_da_alloc
-    mount ext4 /dev/block/platform/sdhci-tegra.3/by-name/cache /cache wait noatime nosuid nodev nomblk_io_submit,noauto_da_alloc
+    mount ext4 /dev/block/platform/sdhci-tegra.3/by-name/userdata /data noatime nosuid nodev nodiratime errors=remount-ro,barrier=0,noauto_da_alloc
+    mount ext4 /dev/block/platform/sdhci-tegra.3/by-name/cache /cache noatime nosuid nodev nodiratime errors=remount-ro,barrier=0,noauto_da_alloc
     mount ext2 /dev/block/platform/sdhci-tegra.3/by-name/pdsb /pds wait ro
+    mount ext4 /dev/block/platform/sdhci-tegra.3/by-name/SDC /data/media noatime nosuid nodev nodiratime errors=remount-ro,barrier=0,noauto_da_alloc
+    mount ext4 /dev/block/platform/sdhci-tegra.3/by-name/sdcard /data/media noatime nosuid nodev nodiratime errors=remount-ro,barrier=0,noauto_da_alloc
     setprop ro.crypto.fuse_sdcard true
 
 on post-fs-data
@@ -141,17 +146,25 @@ on boot
     #write /sys/devices/platform/ohci.0/usb2/2-3/power/level auto
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 216000
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1000000
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 216000
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 1000000
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 40000
-    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 95
-    write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
+    # timer 20ms, min sample 80ms, go max at 80%
+    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
+    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 80000
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 80
     # Wakelock debug
     write /sys/module/wakelock/parameters/debug_mask 7
     # No need to continuously scan w1 bus
     write /sys/devices/w1\ bus\ master/w1_master_search 1
+
+# Lowmemorykiler settings
+    write /proc/sys/vm/min_free_order_shift 1
+    write /proc/sys/vm/min_free_kbytes 5120
+    write /proc/1/oom_score_adj -1000
+    write /sys/module/lowmemorykiller/parameters/cost 128
+
 
 # LTE specific TCP buffer setting for stingray
     # ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,

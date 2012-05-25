@@ -44,13 +44,6 @@ PRODUCT_COPY_FILES += \
     device/moto/wingray/mXT1386_10_AA.bin:system/etc/firmware/mXT1386_10_AA.bin \
     device/moto/wingray/mXT1386_10_FF.bin:system/etc/firmware/mXT1386_10_FF.bin
 
-# Other prebuilt modules
-PRODUCT_COPY_FILES += \
-    device/moto/wingray/modules/cifs.ko:system/lib/modules/cifs.ko \
-    device/moto/wingray/modules/option.ko:system/lib/modules/option.ko \
-    device/moto/wingray/modules/scsi_wait_scan.ko:system/lib/modules/scsi_wait_scan.ko \
-    device/moto/wingray/modules/usb_wwan.ko:system/lib/modules/usb_wwan.ko
-
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
@@ -64,6 +57,7 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
     frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+    frameworks/base/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
 PRODUCT_COPY_FILES += \
@@ -101,6 +95,10 @@ PRODUCT_COPY_FILES += \
 # Bluetooth config file
 PRODUCT_COPY_FILES += \
     system/bluetooth/data/main.nonsmartphone.conf:system/etc/bluetooth/main.conf \
+
+PRODUCT_COPY_FILES += \
+    device/moto/wingray/init.d/01chargingLight:system/etc/init.d/01chargingLight
+$(call inherit-product-if-exists, device/moto/wingray/modules/modules.mk)
 
 # inherit from the non-open-source side, if present
 ifneq ($(filter trygon trygon_l10n calgon full_stingray tyranid stingray BlackICE_stingray,$(TARGET_PRODUCT)),)

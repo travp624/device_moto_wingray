@@ -1,0 +1,10 @@
+#!/system/bin/sh
+
+# enable charging light while device is on
+chmod 777 /sys/devices/virtual/gpio/gpio168/value
+if [ -e /data/data/com.android.settings/app_eos/charging_light ]; then
+    echo 0 > /sys/devices/virtual/gpio/gpio168/value
+else
+    echo 1 > /sys/devices/virtual/gpio/gpio168/value
+fi
+

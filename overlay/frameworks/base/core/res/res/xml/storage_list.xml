@@ -46,4 +46,7 @@
             android:storageDescription="@string/storage_sd_card"
             android:removable="true"
             android:maxFileSize="4096" />
+    <storage android:mountPoint="/media/usb"
+             android:storageDescription="@string/storage_usb"
+             android:removable="true" />
 </StorageList>
