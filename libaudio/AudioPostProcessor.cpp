@@ -141,7 +141,6 @@ void AudioPostProcessor::enableEcns(int value)
 {
     if (mEcnsEnabled!=value) {
         LOGD("enableEcns() new %08x old %08x)", value, mEcnsEnabled);
-        mEcnsThread->broadcastReadCond();
         mEcnsThread->requestExitAndWait();
         stopEcns();
         cleanupEcns();
@@ -667,7 +666,6 @@ int AudioPostProcessor::EcnsThread::readData(int fd, void * buffer, int bytes, i
         run("AudioPostProcessor::EcnsThread", ANDROID_PRIORITY_HIGHEST);
         mIsRunning = true;
     }
-    mEcnsReadCond.signal();
     if (mEcnsReadCond.waitRelative(mEcnsReadLock, seconds(1)) != NO_ERROR) {
         LOGE("%s: ECNS thread is stalled.", __FUNCTION__);
         mClientBuf = 0;
@@ -714,17 +712,6 @@ bool AudioPostProcessor::EcnsThread::threadLoop()
         GETTIMEOFDAY(&mtv3, NULL);
         mEcnsReadLock.lock();
         ecnsStatus = mProcessor->applyUplinkEcns(mReadBuf, mReadSize, mRate);
-
-        // wait for client buffer if not ready
-        if (!mClientBuf) {
-            if(exitPending()) {
-                mEcnsReadLock.unlock();
-                goto error;
-            }
-            if (mEcnsReadCond.waitRelative(mEcnsReadLock, seconds(1)) != NO_ERROR) {
-                LOGE("%s: client stalled.", __FUNCTION__);
-            }
-        }
         if (mClientBuf && mReadSize) {
             // Give the buffer to the client.
             memcpy(mClientBuf, mReadBuf, mReadSize);
@@ -732,8 +719,8 @@ bool AudioPostProcessor::EcnsThread::threadLoop()
             ret1 = ::read(mFd, mReadBuf, mReadSize/2);
             half_done = true;
             GETTIMEOFDAY(&mtv7, NULL);
-            mClientBuf = 0;
             mEcnsReadCond.signal();
+            mClientBuf = 0;
         } else {
             half_done = false;
             LOGV("%s: Read overflow (ECNS sanity preserved)", __FUNCTION__);

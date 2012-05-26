@@ -37,6 +37,7 @@ $(call inherit-product, device/moto/wingray/device.mk)
 
 # Discard inherited values and use our own instead.
 PRODUCT_NAME := full_wingray
+PRODUCT_BRAND := motorola
 PRODUCT_DEVICE := wingray
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := Full Android on Wingray

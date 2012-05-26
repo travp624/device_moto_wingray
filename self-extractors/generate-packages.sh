@@ -14,15 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# 221846 = IML40B
-# 236517 = IML70C
-# 237179 = IML73
-# 237867 = IML74B
-# 238432 = IML74E
-# 238649 = IML74G
-# 239410 = IML74K
-ZIP=tervigon-ota-239410.zip
-BUILD=iml74k
+ZIP=tervigon-ota-221846.zip
+BUILD=iml40b
 ROOTDEVICE=stingray
 DEVICE=wingray
 MANUFACTURER=moto
