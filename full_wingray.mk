@@ -41,5 +41,3 @@ PRODUCT_BRAND := motorola
 PRODUCT_DEVICE := wingray
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := Full Android on Wingray
-
-
