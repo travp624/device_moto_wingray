@@ -153,13 +153,6 @@ on boot
     # No need to continuously scan w1 bus
     write /sys/devices/w1\ bus\ master/w1_master_search 1
 
-# Lowmemorykiler settings
-    write /proc/sys/vm/min_free_order_shift 1
-    write /proc/sys/vm/min_free_kbytes 5120
-    write /proc/1/oom_score_adj -1000
-    write /sys/module/lowmemorykiller/parameters/cost 128
-
-
 # LTE specific TCP buffer setting for stingray
     # ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.lte     524288,1048576,2097152,262144,524288,1048576

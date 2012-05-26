@@ -44,7 +44,6 @@
     <string-array translatable="false" name="networkAttributes">
         <item>"wifi,1,1,2,-1,true"</item>
         <item>"bluetooth,7,7,0,-1,true"</item>
-        <item>"ethernet,9,9,9,-1,true"</item>
         <item>"wifi_p2p,13,1,0,-1,true"</item>
     </string-array>
 
@@ -55,39 +54,14 @@
                       [# simultaneous connection types]"  -->
     <string-array translatable="false" name="radioAttributes">
         <item>"1,1"</item>
-        <item>"0,1"</item>
         <item>"7,1"</item>
-        <item>"9,1"</item>
-    </string-array>
-
-    <!-- List of regexpressions describing the interface (if any) that represent tetherable
-         USB interfaces.  If the device doesn't want to support tething over USB this should
-         be empty.  An example would be "usb.*" -->
-    <string-array translatable="false" name="config_tether_usb_regexs">
-        <item>"rndis0"</item>
     </string-array>
 
     <!-- Array of allowable ConnectivityManager network types for tethering -->
     <integer-array translatable="false" name="config_tether_upstream_types">
-        <item>0</item>
         <item>1</item>
-        <item>5</item>
         <item>7</item>
     </integer-array>
-
-    <!-- List of regexpressions describing the interface (if any) that represent tetherable
-         Wifi interfaces.  If the device doesn't want to support tethering over Wifi this
-         should be empty.  An example would be "softap.*" -->
-    <string-array translatable="false" name="config_tether_wifi_regexs">
-        <item>"wlan0"</item>
-    </string-array>
-
-    <!-- List of regexpressions describing the interface (if any) that represent tetherable
-         bluetooth interfaces.  If the device doesn't want to support tethering over bluetooth this
-         should be empty. -->
-    <string-array translatable="false" name="config_tether_bluetooth_regexs">
-        <item>"bnep\\d"</item>
-    </string-array>
 
     <!-- Boolean indicating whether the wifi chipset has dual frequency band support -->
     <bool translatable="false" name="config_wifi_dual_band_support">true</bool>
@@ -204,9 +178,6 @@
     <!-- This device does not allow sms service. -->
     <bool name="config_sms_capable">false</bool>
 
-    <!-- Enable puk unlockscreen -->
-    <bool name="config_enable_puk_unlock_screen">true</bool>
-
     <!-- Number of database connections opened and managed by framework layer
          to handle queries on each database. -->
     <integer name="db_connection_pool_size">3</integer>
@@ -237,30 +208,7 @@
          prevents us from lowering this to the preferred value without
          causing scroll startup to jump. -->
     <dimen name="config_viewConfigurationTouchSlop">12dp</dimen>
-
-<!-- Boolean indicating whether the wifi chipset has p2p support -->
-    <bool translatable="false" name="config_wifi_p2p_support">true</bool>
-    <!-- Device type information conforming to Annex B format in WiFi Direct specification.
-         The default represents a dual-mode smartphone -->
-    <string translatable="false" name="config_wifi_p2p_device_type">10-0050F204-5</string>
-
-    <!-- Array of OEM specific USB mode override config.
-         OEM can override a certain USB mode depending on ro.bootmode.
-         Specify an array of below items to set override rule.
-         [bootmode]:[original USB mode]:[USB mode used]-->
-    <string-array translatable="false" name="config_oemUsbModeOverride">
-        <item>"bp-tools:mtp:acm,usbnet"</item>
-        <item>"bp-tools:mtp,adb:acm,usbnet,adb"</item>
-        <item>"bp-tools:ptp:acm,usbnet"</item>
-        <item>"bp-tools:ptp,adb:acm,usbnet,adb"</item>
-        <item>"bp-tools:rndis:rndis,acm,usbnet"</item>
-        <item>"bp-tools:rndis,adb:rndis,acm,usbnet,adb"</item>
-        <item>"factorycable:mtp:usbnet"</item>
-        <item>"factorycable:mtp,adb:usbnet,adb"</item>
-        <item>"factorycable:ptp:usbnet"</item>
-        <item>"factorycable:ptp,adb:usbnet,adb"</item>
-    </string-array>
-
+    
     <bool name="config_enableCrtAnimations">false</bool>
 
 </resources>
